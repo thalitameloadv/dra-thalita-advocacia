@@ -1,0 +1,262 @@
+/* Blog Article Styles - Premium enhancements */
+
+/* Prose styling for article content */
+
+
+.prose {
+  color: rgb(51 65 85);
+  line-height: 1.75;
+}
+
+.prose h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: rgb(15 23 42);
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.25;
+  border-left: 4px solid #060629;
+  padding-left: 1rem;
+}
+
+.prose h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: rgb(15 23 42);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.prose h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgb(30 41 59);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose p {
+  margin-bottom: 1.5rem;
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+.prose a {
+  color: #060629;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+
+.prose a:hover {
+  color: #0c0c52;
+}
+
+.prose strong {
+  font-weight: 600;
+  color: rgb(15 23 42);
+}
+
+.prose em {
+  font-style: italic;
+  color: rgb(51 65 85);
+}
+
+.prose ul,
+.prose ol {
+  margin: 1.5rem 0;
+}
+
+.prose ul {
+  list-style-type: disc;
+  list-style-position: outside;
+  margin-left: 1.5rem;
+}
+
+.prose ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+  margin-left: 1.5rem;
+}
+
+.prose li {
+  font-size: 1.125rem;
+  line-height: 1.75;
+  padding-left: 0.5rem;
+}
+
+.prose li::marker {
+  color: #060629;
+  font-weight: 600;
+}
+
+.prose blockquote {
+  border-left: 4px solid #060629;
+  padding-left: 1.5rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin: 2rem 0;
+  background-color: rgb(239 246 255);
+  border-radius: 0 0.5rem 0.5rem 0;
+  font-style: italic;
+  color: rgb(51 65 85);
+}
+
+.prose blockquote p {
+  margin-bottom: 0;
+}
+
+.prose code {
+  background-color: rgb(241 245 249);
+  color: rgb(30 41 59);
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-family: ui-monospace, monospace;
+}
+
+.prose pre {
+  background-color: rgb(15 23 42);
+  color: rgb(241 245 249);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 2rem 0;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+.prose pre code {
+  background-color: transparent;
+  color: rgb(241 245 249);
+  padding: 0;
+}
+
+.prose img {
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  margin: 2rem 0;
+  width: 100%;
+}
+
+.prose table {
+  width: 100%;
+  margin: 2rem 0;
+  border-collapse: collapse;
+}
+
+.prose th {
+  background-color: rgb(241 245 249);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem;
+  border: 1px solid rgb(203 213 225);
+}
+
+.prose td {
+  padding: 0.75rem;
+  border: 1px solid rgb(203 213 225);
+}
+
+.prose hr {
+  margin: 3rem 0;
+  border-top: 2px solid rgb(226 232 240);
+}
+
+
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Reading progress bar */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, #060629, #8B5CF6);
+  z-index: 9999;
+  transition: width 0.1s ease-out;
+}
+
+/* Article animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.article-content {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Share button hover effects */
+.share-button {
+  transition: all 0.3s;
+}
+
+.share-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+/* Like button animation */
+@keyframes heartBeat {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.2);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.like-button-active {
+  animation: heartBeat 0.6s ease-in-out;
+}
+
+/* Related posts hover effect */
+.related-post-card {
+  transition: all 0.3s;
+}
+
+.related-post-card:hover {
+  transform: translateY(-0.5rem);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .prose h2 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .prose h3 {
+    font-size: 1.25rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .prose p,
+  .prose li {
+    font-size: 1rem;
+  }
+}

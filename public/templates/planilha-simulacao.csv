@@ -1,0 +1,6 @@
+Tipo,Inicio,Fim,Categoria,Carencia,Observacoes
+Periodo,2010-01-01,2015-12-31,comum,true,Emprego CLT
+Periodo,2016-01-01,2020-06-30,especial_25,true,Atividade especial - ruído
+Remuneracao,2019-01,3200.50,,,
+Remuneracao,2019-02,3300.00,,,
+Remuneracao,2020-03,4500.75,,,
