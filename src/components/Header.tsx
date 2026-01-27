@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { MessageCircle, Menu, X, Calculator, BookOpen, Home, ChevronDown } from 'lucide-react';
 import { Button } from './ui/button';
-import logo from '@/assets/logo.png';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,6 +12,7 @@ import {
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [logoError, setLogoError] = useState(false);
     const location = useLocation();
 
     const whatsappNumber = "5588996017070";
@@ -61,12 +61,19 @@ const Header = () => {
                 <div className="flex items-center justify-between h-20">
                     {/* Logo */}
                     <Link to="/" className="flex-shrink-0">
-                        <img
-                            src={logo}
-                            alt="Thalita Melo Advocacia"
-                            className={`transition-all duration-300 ${isScrolled ? 'h-14' : 'h-16'
-                                }`}
-                        />
+                        {logoError ? (
+                            <div className={`font-bold text-primary transition-all duration-300 ${isScrolled ? 'text-2xl' : 'text-3xl'}`}>
+                                Thalita Melo Advocacia
+                            </div>
+                        ) : (
+                            <img
+                                src="/logo.png"
+                                alt="Thalita Melo Advocacia"
+                                className={`transition-all duration-300 ${isScrolled ? 'h-14' : 'h-16'
+                                    }`}
+                                onError={() => setLogoError(true)}
+                            />
+                        )}
                     </Link>
 
                     {/* Desktop Navigation */}
