@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import { blogAnalyticsService } from '@/services/blogAnalyticsService';
 
 interface AnalyticsOptions {
@@ -20,8 +20,8 @@ interface UseAnalyticsReturn {
 export const useAnalytics = (options: AnalyticsOptions = {}): UseAnalyticsReturn => {
     const {
         trackPageView = true,
-        trackEngagement = true,
-        trackScrollDepth = true,
+        trackEngagement: trackEngagementEnabled = true,
+        trackScrollDepth: trackScrollDepthEnabled = true,
         trackTimeOnPage = true
     } = options;
 
@@ -112,7 +112,7 @@ export const useAnalytics = (options: AnalyticsOptions = {}): UseAnalyticsReturn
 
     // Track engagement
     const trackEngagement = useCallback((postId: string, type: 'like' | 'comment' | 'share' | 'bookmark', data?: any) => {
-        if (!trackEngagement) return;
+        if (!trackEngagementEnabled) return;
 
         const sessionId = getSessionId();
 
@@ -129,7 +129,7 @@ export const useAnalytics = (options: AnalyticsOptions = {}): UseAnalyticsReturn
         } catch (error) {
             console.error('Failed to track engagement:', error);
         }
-    }, [trackEngagement, getSessionId]);
+    }, [trackEngagementEnabled, getSessionId]);
 
     // Track custom events
     const trackEvent = useCallback((eventName: string, properties?: Record<string, any>) => {
@@ -150,7 +150,7 @@ export const useAnalytics = (options: AnalyticsOptions = {}): UseAnalyticsReturn
 
     // Track scroll depth
     const trackScrollDepth = useCallback((depth: number) => {
-        if (!trackScrollDepth) return;
+        if (!trackScrollDepthEnabled) return;
 
         // Only track if this is a new maximum depth
         if (depth > maxScrollDepthRef.current) {
@@ -166,11 +166,11 @@ export const useAnalytics = (options: AnalyticsOptions = {}): UseAnalyticsReturn
                 console.error('Failed to track scroll depth:', error);
             }
         }
-    }, [trackScrollDepth, getSessionId]);
+    }, [trackScrollDepthEnabled, getSessionId]);
 
     // Auto-track scroll depth
     useEffect(() => {
-        if (!trackScrollDepth) return;
+        if (!trackScrollDepthEnabled) return;
 
         const handleScroll = () => {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -182,7 +182,7 @@ export const useAnalytics = (options: AnalyticsOptions = {}): UseAnalyticsReturn
         };
 
         // Throttle scroll events
-        let timeoutId: NodeJS.Timeout;
+        let timeoutId: ReturnType<typeof setTimeout> | null = null;
         const throttledHandleScroll = () => {
             if (timeoutId) return;
             timeoutId = setTimeout(() => {
@@ -193,7 +193,7 @@ export const useAnalytics = (options: AnalyticsOptions = {}): UseAnalyticsReturn
 
         window.addEventListener('scroll', throttledHandleScroll);
         return () => window.removeEventListener('scroll', throttledHandleScroll);
-    }, [trackScrollDepth, trackScrollDepth]);
+    }, [trackScrollDepthEnabled, trackScrollDepth]);
 
     // Auto-track time on page
     useEffect(() => {

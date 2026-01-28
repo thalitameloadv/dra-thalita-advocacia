@@ -51,6 +51,7 @@ import { Switch } from '@/components/ui/switch';
 import { newsletterCampaignService, CampaignTemplate } from '@/services/newsletterCampaignService';
 import { newsletterService } from '@/services/newsletterService';
 import { toast } from 'sonner';
+import { sanitizeHtml } from '@/lib/sanitizeHtml';
 
 const newsletterSchema = z.object({
     subject: z.string().min(1, 'O assunto é obrigatório'),
@@ -504,7 +505,7 @@ const NewsletterEditor = ({ campaignId, onSave, onSend }: NewsletterEditorProps)
                                         <h3 className="text-lg font-semibold mb-4">Preview</h3>
                                         <div className="prose max-w-none">
                                             <h4>{watch('subject')}</h4>
-                                            <div dangerouslySetInnerHTML={{ __html: formatContent(content) }} />
+                                            <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(formatContent(content)) }} />
                                         </div>
                                     </div>
                                 )}

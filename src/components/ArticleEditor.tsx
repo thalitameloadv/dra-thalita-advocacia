@@ -56,6 +56,7 @@ import { Switch } from '@/components/ui/switch';
 import { blogService } from '@/services/blogService';
 import { BlogPost, BlogCategory } from '@/types/blog';
 import { toast } from 'sonner';
+import { sanitizeHtml } from '@/lib/sanitizeHtml';
 
 const articleSchema = z.object({
     title: z.string().min(1, 'O título é obrigatório'),
@@ -733,7 +734,7 @@ const ArticleEditor = ({ articleId, onSave, onPublish }: ArticleEditorProps) => 
                                     <div className="border rounded-lg p-6 bg-white">
                                         <h3 className="text-lg font-semibold mb-4">Preview</h3>
                                         <div className="prose max-w-none">
-                                            <div dangerouslySetInnerHTML={{ __html: formatContent(content) }} />
+                                            <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(formatContent(content)) }} />
                                         </div>
                                     </div>
                                 )}

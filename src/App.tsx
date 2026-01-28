@@ -15,6 +15,7 @@ import BlogAdmin from "./pages/BlogAdmin";
 import BlogEditor from "./pages/BlogEditor";
 import BlogSEO from "./pages/BlogSEO";
 import AdminLogin from "./pages/AdminLogin";
+import AdminResetPassword from "./pages/AdminResetPassword";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 import NewsletterAdmin from "./pages/NewsletterAdmin";
@@ -57,74 +58,82 @@ class ErrorBoundary extends React.Component<
   }
 }
 
-const App = () => (
-  <ErrorBoundary>
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/calculadoras" element={<Calculadoras />} />
-              <Route path="/calculadora-aposentadoria" element={<CalculadoraAposentadoria />} />
-              <Route path="/calculadora-rescisao-trabalhista" element={<CalculadoraRescisao />} />
+const App = () => {
+  return (
+    <ErrorBoundary>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/calculadoras" element={<Calculadoras />} />
+                <Route path="/calculadora-aposentadoria" element={<CalculadoraAposentadoria />} />
+                <Route path="/calculadora-rescisao-trabalhista" element={<CalculadoraRescisao />} />
 
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogArticle />} />
+                {/* Blog Routes */}
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogArticle />} />
 
-              <Route path="/admin/login" element={<AdminLogin />} />
+                {/* Admin Login */}
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin/reset-password" element={<AdminResetPassword />} />
 
-              <Route path="/admin/blog" element={
-                <ProtectedRoute>
-                  <BlogAdmin />
-                </ProtectedRoute>
-              } />
-              <Route path="/admin/blog/seo" element={
-                <ProtectedRoute>
-                  <BlogSEO />
-                </ProtectedRoute>
-              } />
-              <Route path="/admin/blog/:id" element={
-                <ProtectedRoute>
-                  <BlogEditor />
-                </ProtectedRoute>
-              } />
-              <Route path="/admin/blog/novo" element={
-                <ProtectedRoute>
-                  <CreateArticle />
-                </ProtectedRoute>
-              } />
-              <Route path="/admin/blog/editar/:id" element={
-                <ProtectedRoute>
-                  <CreateArticle />
-                </ProtectedRoute>
-              } />
+                {/* Protected Admin Routes */}
+                <Route path="/admin/blog" element={
+                  <ProtectedRoute>
+                    <BlogAdmin />
+                  </ProtectedRoute>
+                } />
+                <Route path="/admin/blog/seo" element={
+                  <ProtectedRoute>
+                    <BlogSEO />
+                  </ProtectedRoute>
+                } />
+                <Route path="/admin/blog/:id" element={
+                  <ProtectedRoute>
+                    <BlogEditor />
+                  </ProtectedRoute>
+                } />
+                <Route path="/admin/blog/novo" element={
+                  <ProtectedRoute>
+                    <CreateArticle />
+                  </ProtectedRoute>
+                } />
+                <Route path="/admin/blog/editar/:id" element={
+                  <ProtectedRoute>
+                    <CreateArticle />
+                  </ProtectedRoute>
+                } />
 
-              <Route path="/admin/newsletter" element={
-                <ProtectedRoute>
-                  <NewsletterAdmin />
-                </ProtectedRoute>
-              } />
-              <Route path="/admin/newsletter/criar" element={
-                <ProtectedRoute>
-                  <CreateNewsletter />
-                </ProtectedRoute>
-              } />
-              <Route path="/admin/newsletter/editar/:id" element={
-                <ProtectedRoute>
-                  <CreateNewsletter />
-                </ProtectedRoute>
-              } />
+                {/* Newsletter Admin Routes */}
+                <Route path="/admin/newsletter" element={
+                  <ProtectedRoute>
+                    <NewsletterAdmin />
+                  </ProtectedRoute>
+                } />
+                <Route path="/admin/newsletter/criar" element={
+                  <ProtectedRoute>
+                    <CreateNewsletter />
+                  </ProtectedRoute>
+                } />
+                <Route path="/admin/newsletter/editar/:id" element={
+                  <ProtectedRoute>
+                    <CreateNewsletter />
+                  </ProtectedRoute>
+                } />
 
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </QueryClientProvider>
-    </HelmetProvider>
-  </ErrorBoundary>
-);
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </QueryClientProvider>
+      </HelmetProvider>
+    </ErrorBoundary>
+  );
+};
 
 export default App;

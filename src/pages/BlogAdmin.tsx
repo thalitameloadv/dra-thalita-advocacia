@@ -52,13 +52,13 @@ import BlogAnalytics from '@/components/BlogAnalytics';
 import { blogService } from '@/services/blogService';
 import { newsletterService } from '@/services/newsletterService';
 import { authService } from '@/lib/supabase';
-import { BlogPost, BlogAnalytics } from '@/types/blog';
+import { BlogPost, BlogAnalytics as BlogAnalyticsType } from '@/types/blog';
 import { toast } from 'sonner';
 
 const BlogAdmin = () => {
     const navigate = useNavigate();
     const [posts, setPosts] = useState<BlogPost[]>([]);
-    const [analytics, setAnalytics] = useState<BlogAnalytics | null>(null);
+    const [analytics, setAnalytics] = useState<BlogAnalyticsType | null>(null);
     const [subscriberStats, setSubscriberStats] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');

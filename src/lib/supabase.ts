@@ -2,12 +2,12 @@ import { createClient } from '@supabase/supabase-js';
 
 // Supabase configuration
 // IMPORTANTE: Em produção, mova estas variáveis para .env
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://your-project.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-anon-key';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Debug: Verificar se as variáveis estão configuradas
-console.log('Supabase URL:', supabaseUrl);
-console.log('Supabase configured:', supabaseUrl !== 'https://your-project.supabase.co');
+if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error('Missing Supabase environment variables. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.');
+}
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
@@ -21,32 +21,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 export const authService = {
     // Sign in with email and password
     async signIn(email: string, password: string) {
-        // Debug mode: Allow login with hardcoded credentials for development
-        if (supabaseUrl === 'https://your-project.supabase.co') {
-            console.log('Modo de desenvolvimento: usando autenticação simulada');
-            
-            // Simular autenticação para desenvolvimento
-            if (email === 'marketing@thalitameloadv.com.br' && password === 'Thalitaadv1!') {
-                // Simular sessão de usuário
-                const mockUser = {
-                    id: 'dev-user-id',
-                    email: 'marketing@thalitameloadv.com.br',
-                    role: 'admin'
-                };
-                
-                // Salvar no localStorage para persistência
-                localStorage.setItem('admin-auth', JSON.stringify({
-                    user: mockUser,
-                    authenticated: true,
-                    timestamp: Date.now()
-                }));
-                
-                return { user: mockUser, session: { user: mockUser } };
-            } else {
-                throw new Error('Email ou senha incorretos');
-            }
-        }
-
         const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password,
@@ -58,12 +32,6 @@ export const authService = {
 
     // Sign out
     async signOut() {
-        // Debug mode: Clear localStorage
-        if (supabaseUrl === 'https://your-project.supabase.co') {
-            localStorage.removeItem('admin-auth');
-            return;
-        }
-
         const { error } = await supabase.auth.signOut();
         if (error) throw error;
     },
@@ -84,18 +52,6 @@ export const authService = {
 
     // Check if user is authenticated
     async isAuthenticated() {
-        // Debug mode: Check localStorage for simulated auth
-        if (supabaseUrl === 'https://your-project.supabase.co') {
-            const authData = localStorage.getItem('admin-auth');
-            if (authData) {
-                const { authenticated, timestamp } = JSON.parse(authData);
-                // Considerar autenticação válida por 24 horas
-                const isValid = authenticated && (Date.now() - timestamp < 24 * 60 * 60 * 1000);
-                return isValid;
-            }
-            return false;
-        }
-
         const session = await this.getSession();
         return !!session;
     },

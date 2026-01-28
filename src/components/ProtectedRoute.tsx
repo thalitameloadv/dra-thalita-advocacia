@@ -10,12 +10,28 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const [loading, setLoading] = useState(true);
 
+    const adminEmails = (import.meta.env.VITE_ADMIN_EMAILS ?? '')
+        .split(',')
+        .map((e: string) => e.trim())
+        .filter(Boolean);
+
     useEffect(() => {
         checkAuth();
 
         // Listen to auth changes
         const { data: { subscription } } = authService.onAuthStateChange((event, session) => {
-            setIsAuthenticated(!!session);
+            if (!session) {
+                setIsAuthenticated(false);
+                return;
+            }
+
+            if (adminEmails.length === 0) {
+                setIsAuthenticated(true);
+                return;
+            }
+
+            const email = session.user?.email ?? '';
+            setIsAuthenticated(adminEmails.includes(email));
         });
 
         return () => {
@@ -26,7 +42,19 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const checkAuth = async () => {
         try {
             const authenticated = await authService.isAuthenticated();
-            setIsAuthenticated(authenticated);
+            if (!authenticated) {
+                setIsAuthenticated(false);
+                return;
+            }
+
+            if (adminEmails.length === 0) {
+                setIsAuthenticated(true);
+                return;
+            }
+
+            const user = await authService.getCurrentUser();
+            const email = user?.email ?? '';
+            setIsAuthenticated(adminEmails.includes(email));
         } catch (error) {
             console.error('Auth check error:', error);
             setIsAuthenticated(false);

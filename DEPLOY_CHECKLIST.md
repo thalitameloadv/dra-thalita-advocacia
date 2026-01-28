@@ -12,8 +12,8 @@
   VITE_SUPABASE_ANON_KEY=xxx
   ```
 - [ ] Criar usuário admin:
-  - Email: marketing@thalitaadv.com.br
-  - Senha: Thalitaadv1!
+  - Email: admin@your-domain.com
+  - Senha: (crie uma senha forte)
   - ✅ Auto Confirm User
 - [ ] Testar login localmente
 

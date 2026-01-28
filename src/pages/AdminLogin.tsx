@@ -174,18 +174,6 @@ const AdminLogin = () => {
                                     </button>
                                 </div>
                             </form>
-
-                            <div className="mt-6 pt-6 border-t border-slate-200">
-                                <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
-                                    <p className="text-sm text-slate-900 font-medium mb-2">
-                                        ℹ️ Credenciais de Acesso
-                                    </p>
-                                    <div className="text-xs text-slate-700 space-y-1">
-                                        <p><strong>Email:</strong> marketing@thalitameloadv.com.br</p>
-                                        <p><strong>Senha:</strong> Thalitaadv1!</p>
-                                    </div>
-                                </div>
-                            </div>
                         </CardContent>
                     </Card>
 

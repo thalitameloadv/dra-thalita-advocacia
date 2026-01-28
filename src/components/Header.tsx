@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { MessageCircle, Menu, X, Calculator, BookOpen, Home, ChevronDown } from 'lucide-react';
 import { Button } from './ui/button';
+import logo from '@/assets/logo.png';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -67,7 +68,7 @@ const Header = () => {
                             </div>
                         ) : (
                             <img
-                                src="/logo.png"
+                                src={logo}
                                 alt="Thalita Melo Advocacia"
                                 className={`transition-all duration-300 ${isScrolled ? 'h-14' : 'h-16'
                                     }`}

@@ -27,6 +27,7 @@ import { BlogPost } from '@/types/blog';
 import { toast } from 'sonner';
 import '@/styles/blog-article.css';
 import AnalyticsTracker from '@/components/AnalyticsTracker';
+import { sanitizeHtml } from '@/lib/sanitizeHtml';
 
 const BlogArticle = () => {
     const { slug } = useParams<{ slug: string }>();
@@ -336,7 +337,7 @@ const BlogArticle = () => {
                             {/* Content */}
                             <div
                                 className="prose prose-lg max-w-none mb-12 article-content"
-                                dangerouslySetInnerHTML={{ __html: post.content }}
+                                dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
                             />
 
                             {/* Tags */}

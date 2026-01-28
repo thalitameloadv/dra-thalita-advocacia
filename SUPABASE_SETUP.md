@@ -49,8 +49,8 @@ Este guia explica como configurar a autenticação do admin do blog usando Supab
 1. No Supabase, vá em **Authentication** → **Users**
 2. Clique em "Add user" → "Create new user"
 3. Preencha:
-   - **Email**: `marketing@thalitaadv.com.br`
-   - **Password**: `Thalitaadv1!`
+   - **Email**: `admin@your-domain.com`
+   - **Password**: (crie uma senha forte)
    - **Auto Confirm User**: ✅ (marque esta opção)
 4. Clique em "Create user"
 
@@ -71,8 +71,8 @@ Por padrão, o Supabase usa Row Level Security (RLS). Para este projeto:
 2. Acesse: `http://localhost:5173/admin/login`
 
 3. Faça login com:
-   - **Email**: `marketing@thalitaadv.com.br`
-   - **Senha**: `Thalitaadv1!`
+   - **Email**: `admin@your-domain.com`
+   - **Senha**: (a senha forte que você criou)
 
 4. Você deve ser redirecionado para `/admin/blog`
 
@@ -88,8 +88,8 @@ Por padrão, o Supabase usa Row Level Security (RLS). Para este projeto:
 
 ### **Credenciais do Admin**
 
-- **Email**: `marketing@thalitaadv.com.br`
-- **Senha**: `Thalitaadv1!`
+- **Email**: `admin@your-domain.com`
+- **Senha**: (a senha forte que você criou)
 
 ⚠️ **IMPORTANTE**: Altere a senha após o primeiro login!
 
