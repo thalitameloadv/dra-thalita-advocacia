@@ -144,15 +144,15 @@ const Blog = () => {
 
       <Header />
 
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 pt-20">
+      <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20 pt-20">
         {/* Hero Section */}
-        <div className="bg-white border-b border-slate-200">
+        <div className="bg-white border-b border-border">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="text-center">
-              <h1 className="text-4xl font-bold text-slate-900 mb-4">
+              <h1 className="text-4xl font-bold text-foreground mb-4">
                 Blog <span className="text-navy">Direito em Foco</span>
               </h1>
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                 Artigos especializados em direito previdenciário, trabalhista e familiar.
                 Mantenha-se atualizado com as últimas notícias e análises jurídicas.
               </p>
@@ -162,10 +162,10 @@ const Blog = () => {
 
         {/* Filters */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input
                   placeholder="Buscar artigos..."
                   value={searchTerm}
@@ -217,7 +217,7 @@ const Blog = () => {
             <div className="lg:col-span-2">
               {filteredPosts.length === 0 ? (
                 <div className="text-center py-12">
-                  <p className="text-slate-600 text-lg">Nenhum artigo encontrado para os filtros selecionados.</p>
+                  <p className="text-muted-foreground text-lg">Nenhum artigo encontrado para os filtros selecionados.</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -238,13 +238,13 @@ const Blog = () => {
                           <Badge variant="secondary" className="text-xs">
                             {post.category}
                           </Badge>
-                          <div className="flex items-center text-slate-500 text-xs">
+                          <div className="flex items-center text-muted-foreground text-xs">
                             <Clock className="h-3 w-3 mr-1" />
                             {post.readingTime} min
                           </div>
                         </div>
 
-                        <CardTitle className="line-clamp-2 group-hover:text-navy transition-colors">
+                        <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors">
                           <Link to={`/blog/${post.slug}`}>
                             {post.title}
                           </Link>
@@ -256,7 +256,7 @@ const Blog = () => {
                       </CardHeader>
 
                       <CardContent>
-                        <div className="flex items-center justify-between text-sm text-slate-500 mb-4">
+                        <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
                           <div className="flex items-center">
                             <Calendar className="h-4 w-4 mr-1" />
                             {formatDate(post.publishedAt)}
@@ -282,7 +282,7 @@ const Blog = () => {
                         </div>
 
                         <Link to={`/blog/${post.slug}`}>
-                          <Button className="w-full group-hover:bg-navy transition-colors">
+                          <Button className="w-full group-hover:bg-primary transition-colors">
                             Ler Artigo
                             <ChevronRight className="h-4 w-4 ml-2" />
                           </Button>
@@ -311,8 +311,8 @@ const Blog = () => {
                         key={category.id}
                         onClick={() => setSelectedCategory(category.name)}
                         className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${selectedCategory === category.name
-                          ? 'bg-navy/10 text-navy'
-                          : 'hover:bg-slate-100 text-slate-700'
+                          ? 'bg-primary/10 text-primary'
+                          : 'hover:bg-secondary/50 text-foreground'
                           }`}
                       >
                         <div className="flex items-center justify-between">
@@ -340,7 +340,7 @@ const Blog = () => {
                         <Badge
                           key={tag}
                           variant="outline"
-                          className="cursor-pointer hover:bg-navy/10 hover:text-navy transition-colors"
+                          className="cursor-pointer hover:bg-primary/10 hover:text-primary transition-colors"
                           onClick={() => setSearchTerm(tag)}
                         >
                           #{tag}

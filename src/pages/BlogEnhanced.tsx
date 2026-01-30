@@ -348,30 +348,37 @@ const BlogEnhanced = () => {
                 </script>
             </Helmet>
 
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+            <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20">
                 <Header />
                 
                 {/* Hero Section */}
-                <section className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-16">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center">
-                            <div className="flex items-center justify-center mb-4">
-                                <BookOpen className="h-12 w-12 mr-3" />
-                                <h1 className="text-4xl md:text-5xl font-bold">
+                <section className="bg-primary text-white py-32 relative overflow-hidden">
+                    {/* Background Pattern */}
+                    <div className="absolute inset-0 opacity-5">
+                        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.1%22%3E%3Ccircle%20cx%3D%227%22%20cy%3D%227%22%20r%3D%227%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] bg-repeat"></div>
+                    </div>
+                    
+                    <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center space-y-8">
+                            <div className="flex items-center justify-center mb-6">
+                                <div className="p-4 bg-white/10 rounded-2xl backdrop-blur-sm">
+                                    <BookOpen className="h-12 w-12 text-white" />
+                                </div>
+                                <h1 className="text-4xl md:text-6xl font-bold ml-4">
                                     Blog Jurídico
                                 </h1>
                             </div>
-                            <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+                            <p className="text-xl text-primary-foreground/95 mb-12 max-w-4xl mx-auto leading-relaxed">
                                 Artigos especializados em direito civil, trabalhista, empresarial, familiar e tributário. 
                                 Conteúdo de qualidade para profissionais e estudantes de direito.
                             </p>
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
-                                    <Zap className="h-5 w-5 mr-2" />
+                            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                                <Button size="lg" className="bg-white text-navy hover:bg-accent/10 px-8 py-4 text-lg font-semibold shadow-elegant hover:shadow-glow transition-all duration-300">
+                                    <Zap className="h-5 w-5 mr-3" />
                                     Artigos em Destaque
                                 </Button>
-                                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
-                                    <BookOpen className="h-5 w-5 mr-2" />
+                                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold transition-all duration-300">
+                                    <BookOpen className="h-5 w-5 mr-3" />
                                     Todas as Categorias
                                 </Button>
                             </div>
@@ -380,33 +387,34 @@ const BlogEnhanced = () => {
                 </section>
 
                 {/* Stats Section */}
-                <section className="bg-white py-12 border-b">
+                <section className="bg-card py-16 border-y border-border">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-                            <div>
-                                <div className="text-3xl font-bold text-blue-600 mb-2">
-                                    {posts.length}+
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl font-serif font-semibold text-foreground mb-4">
+                                Nossos Números
+                            </h2>
+                            <p className="text-muted-foreground max-w-2xl mx-auto">
+                                Crescimento contínuo e compromisso com conteúdo de qualidade
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                            {[
+                                { value: `${posts.length}+`, label: "Artigos Publicados", icon: BookOpen },
+                                { value: `${categories.length}`, label: "Categorias", icon: Grid },
+                                { value: `${posts.reduce((acc, post) => acc + post.views, 0).toLocaleString()}+`, label: "Visualizações", icon: Eye },
+                                { value: `${posts.reduce((acc, post) => acc + post.likes, 0).toLocaleString()}+`, label: "Curtidas", icon: Heart }
+                            ].map((stat, index) => (
+                                <div key={index} className="text-center group">
+                                    <div className="relative inline-flex items-center justify-center w-16 h-16 mb-4">
+                                        <div className="absolute inset-0 bg-primary/10 rounded-2xl group-hover:bg-primary/20 transition-colors"></div>
+                                        <stat.icon className="h-8 w-8 text-primary relative z-10" />
+                                    </div>
+                                    <div className="text-4xl font-serif font-bold text-primary mb-2">
+                                        {stat.value}
+                                    </div>
+                                    <div className="text-muted-foreground font-medium">{stat.label}</div>
                                 </div>
-                                <div className="text-slate-600">Artigos Publicados</div>
-                            </div>
-                            <div>
-                                <div className="text-3xl font-bold text-blue-600 mb-2">
-                                    {categories.length}
-                                </div>
-                                <div className="text-slate-600">Categorias</div>
-                            </div>
-                            <div>
-                                <div className="text-3xl font-bold text-blue-600 mb-2">
-                                    {posts.reduce((acc, post) => acc + post.views, 0).toLocaleString()}+
-                                </div>
-                                <div className="text-slate-600">Visualizações</div>
-                            </div>
-                            <div>
-                                <div className="text-3xl font-bold text-blue-600 mb-2">
-                                    {posts.reduce((acc, post) => acc + post.likes, 0).toLocaleString()}+
-                                </div>
-                                <div className="text-slate-600">Curtidas</div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -562,12 +570,12 @@ const BlogEnhanced = () => {
                 </section>
 
                 {/* Newsletter Section */}
-                <section className="bg-blue-600 text-white py-16">
+                <section className="bg-primary text-white py-16">
                     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                         <h2 className="text-3xl font-bold mb-4">
                             Receba nossos artigos por e-mail
                         </h2>
-                        <p className="text-blue-100 mb-8">
+                        <p className="text-primary-foreground/90 mb-8">
                             Fique atualizado com as últimas publicações jurídicas e análises especializadas
                         </p>
                         <NewsletterSignup variant="default" className="max-w-md mx-auto" />

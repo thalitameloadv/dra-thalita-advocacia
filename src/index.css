@@ -2,10 +2,10 @@
 @import "@fontsource/playfair-display/500.css";
 @import "@fontsource/playfair-display/600.css";
 @import "@fontsource/playfair-display/700.css";
-@import "@fontsource/dm-sans/400.css";
-@import "@fontsource/dm-sans/500.css";
-@import "@fontsource/dm-sans/600.css";
-@import "@fontsource/dm-sans/700.css";
+@import "@fontsource/montserrat/400.css";
+@import "@fontsource/montserrat/500.css";
+@import "@fontsource/montserrat/600.css";
+@import "@fontsource/montserrat/700.css";
 
 @tailwind base;
 @tailwind components;
@@ -13,53 +13,53 @@
 
 @layer base {
   :root {
-    --background: 45 33% 96%;
-    --foreground: 240 74% 9%;
+    --background: 0 0% 98%;
+    --foreground: 207 45% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 240 74% 9%;
+    --card-foreground: 207 45% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 74% 9%;
+    --popover-foreground: 207 45% 15%;
 
-    --primary: 35 48% 42%;
+    --primary: 207 45% 15%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 42 54% 75%;
-    --secondary-foreground: 240 74% 9%;
+    --secondary: 0 0% 93%;
+    --secondary-foreground: 207 45% 15%;
 
-    --muted: 42 54% 75%;
-    --muted-foreground: 215 14% 37%;
+    --muted: 0 0% 93%;
+    --muted-foreground: 0 0% 37%;
 
-    --accent: 147 41% 28%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 45 87% 51%;
+    --accent-foreground: 207 45% 15%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 0 0% 85%;
-    --input: 0 0% 85%;
-    --ring: 35 48% 42%;
+    --border: 0 0% 93%;
+    --input: 0 0% 93%;
+    --ring: 207 45% 15%;
 
     --radius: 0.5rem;
 
     /* Custom colors */
-    --gold: 35 48% 42%;
-    --gold-light: 42 54% 75%;
-    --navy: 240 74% 9%;
-    --slate: 215 14% 37%;
+    --gold: 45 87% 51%;
+    --gold-light: 45 87% 70%;
+    --navy: 207 45% 15%;
+    --slate: 0 0% 37%;
     --green-whatsapp: 147 41% 28%;
-    --cream: 42 47% 87%;
+    --cream: 0 0% 98%;
 
     /* Gradients */
-    --gradient-gold: linear-gradient(135deg, hsl(35 48% 42%) 0%, hsl(42 54% 55%) 100%);
-    --gradient-navy: linear-gradient(180deg, hsl(240 74% 9%) 0%, hsl(215 35% 20%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(42 47% 95%) 0%, hsl(42 54% 88%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(45 87% 51%) 0%, hsl(45 87% 65%) 100%);
+    --gradient-navy: linear-gradient(180deg, hsl(207 45% 15%) 0%, hsl(207 45% 25%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 98%) 0%, hsl(0 0% 95%) 100%);
 
     /* Shadows */
-    --shadow-elegant: 0 10px 40px -10px hsl(35 48% 42% / 0.2);
-    --shadow-card: 0 4px 20px hsl(240 74% 9% / 0.08);
-    --shadow-glow: 0 0 30px hsl(35 48% 42% / 0.3);
+    --shadow-elegant: 0 10px 40px -10px hsl(207 45% 15% / 0.2);
+    --shadow-card: 0 4px 20px hsl(207 45% 15% / 0.08);
+    --shadow-glow: 0 0 30px hsl(45 87% 51% / 0.3);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -245,8 +245,8 @@ html {
 
 /* Selection color */
 ::selection {
-  background-color: hsl(35 48% 42% / 0.2);
-  color: hsl(240 74% 9%);
+  background-color: hsl(45 87% 51% / 0.2);
+  color: hsl(207 45% 15%);
 }
 
 a[href*="lovable.dev"],

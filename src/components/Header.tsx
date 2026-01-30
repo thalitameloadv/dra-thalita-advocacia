@@ -63,7 +63,13 @@ const Header = () => {
                     {/* Logo */}
                     <Link to="/" className="flex-shrink-0">
                         {logoError ? (
-                            <div className={`font-bold text-primary transition-all duration-300 ${isScrolled ? 'text-2xl' : 'text-3xl'}`}>
+                            <div className={`font-bold transition-all duration-300 ${
+                                isScrolled 
+                                    ? 'text-primary text-2xl' 
+                                    : location.pathname === '/blog' 
+                                        ? 'text-white text-3xl'
+                                        : 'text-primary text-3xl'
+                            }`}>
                                 Thalita Melo Advocacia
                             </div>
                         ) : (
@@ -83,7 +89,11 @@ const Header = () => {
                             link.submenu ? (
                                 <DropdownMenu key={index}>
                                     <DropdownMenuTrigger asChild>
-                                        <button className="flex items-center gap-1 text-sm font-medium text-slate-700 hover:text-primary transition-colors">
+                                        <button className={`flex items-center gap-1 text-sm font-medium transition-colors ${
+                                            location.pathname === '/blog' && !isScrolled
+                                                ? 'text-white hover:text-accent'
+                                                : 'text-slate-700 hover:text-primary'
+                                        }`}>
                                             <link.icon className="h-4 w-4" />
                                             {link.label}
                                             <ChevronDown className="h-3 w-3" />
@@ -107,8 +117,10 @@ const Header = () => {
                                     key={index}
                                     to={link.path}
                                     className={`flex items-center gap-2 text-sm font-medium transition-colors ${isActive(link.path)
-                                            ? 'text-primary'
-                                            : 'text-slate-700 hover:text-primary'
+                                            ? location.pathname === '/blog' && !isScrolled ? 'text-white' : 'text-primary'
+                                            : location.pathname === '/blog' && !isScrolled
+                                                ? 'text-white hover:text-accent'
+                                                : 'text-slate-700 hover:text-primary'
                                         }`}
                                 >
                                     <link.icon className="h-4 w-4" />
@@ -124,7 +136,11 @@ const Header = () => {
                             href={whatsappLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-primary transition-colors"
+                            className={`flex items-center gap-2 text-sm font-medium transition-colors ${
+                                location.pathname === '/blog' && !isScrolled
+                                    ? 'text-white hover:text-accent'
+                                    : 'text-slate-700 hover:text-primary'
+                            }`}
                         >
                             <MessageCircle className="w-4 h-4" />
                             88996017070
@@ -132,7 +148,11 @@ const Header = () => {
                         <Button
                             asChild
                             size="sm"
-                            className="bg-primary hover:bg-primary/90 text-white shadow-md hover:shadow-lg transition-all"
+                            className={`bg-primary hover:bg-primary/90 text-white shadow-md hover:shadow-lg transition-all ${
+                                location.pathname === '/blog' && !isScrolled
+                                    ? 'bg-white text-primary hover:bg-accent/10'
+                                    : ''
+                            }`}
                         >
                             <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
                                 <MessageCircle className="w-4 h-4 mr-2" />

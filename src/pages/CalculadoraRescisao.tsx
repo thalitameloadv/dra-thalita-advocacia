@@ -3,6 +3,8 @@ import RescisaoWizard from "@/components/rescisao-wizard/RescisaoWizard";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 const CalculadoraRescisaoPage = () => {
   const navigate = useNavigate();
@@ -14,6 +16,8 @@ const CalculadoraRescisaoPage = () => {
 
   return (
     <>
+      <Header />
+      
       <div className="container">
         <div className="pt-6 pb-4">
           <Button
@@ -32,6 +36,8 @@ const CalculadoraRescisaoPage = () => {
           <RescisaoWizard />
         </div>
       </section>
+      
+      <Footer />
     </>
   );
 };

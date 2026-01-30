@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import CalculatorHub from "@/components/CalculatorHub";
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 const CalculadorasPage = () => {
   useEffect(() => {
@@ -7,7 +9,13 @@ const CalculadorasPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  return <CalculatorHub />;
+  return (
+    <>
+      <Header />
+      <CalculatorHub />
+      <Footer />
+    </>
+  );
 };
 
 export default CalculadorasPage;

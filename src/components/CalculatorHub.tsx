@@ -14,7 +14,7 @@ const CalculatorHub = ({ className = "" }: CalculatorHubProps) => {
   };
 
   return (
-    <section className={`py-20 bg-muted/30 ${className}`}>
+    <section className={`py-20 pt-32 bg-muted/30 ${className}`}>
       <div className="container">
         <div className="text-center mb-12">
           <span className="text-sm font-medium text-accent uppercase tracking-wider">

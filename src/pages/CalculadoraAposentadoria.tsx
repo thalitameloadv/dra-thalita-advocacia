@@ -3,6 +3,8 @@ import { SimulationWizard } from "@/components/simulator/SimulationWizard";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 const CalculadoraAposentadoriaPage = () => {
   const navigate = useNavigate();
@@ -14,6 +16,8 @@ const CalculadoraAposentadoriaPage = () => {
 
   return (
     <>
+      <Header />
+      
       <div className="container">
         <div className="pt-6 pb-4">
           <Button
@@ -32,6 +36,8 @@ const CalculadoraAposentadoriaPage = () => {
           <SimulationWizard />
         </div>
       </section>
+      
+      <Footer />
     </>
   );
 };
