@@ -377,7 +377,7 @@ const BlogEnhanced = () => {
                                     <Zap className="h-5 w-5 mr-3" />
                                     Artigos em Destaque
                                 </Button>
-                                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold transition-all duration-300">
+                                <Button size="lg" variant="outline" className="border-white text-navy hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold transition-all duration-300">
                                     <BookOpen className="h-5 w-5 mr-3" />
                                     Todas as Categorias
                                 </Button>
