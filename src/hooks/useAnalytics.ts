@@ -10,7 +10,7 @@ interface AnalyticsOptions {
 
 interface UseAnalyticsReturn {
     trackView: (postId: string, additionalData?: Record<string, any>) => void;
-    trackEngagement: (postId: string, type: 'like' | 'comment' | 'share' | 'bookmark', data?: any) => void;
+    trackEngagement: (postId: string, type: 'like' | 'comment' | 'share', data?: any) => void;
     trackEvent: (eventName: string, properties?: Record<string, any>) => void;
     trackScrollDepth: (depth: number) => void;
     startSession: () => string;
@@ -111,7 +111,7 @@ export const useAnalytics = (options: AnalyticsOptions = {}): UseAnalyticsReturn
     }, [trackPageView, getSessionId]);
 
     // Track engagement
-    const trackEngagement = useCallback((postId: string, type: 'like' | 'comment' | 'share' | 'bookmark', data?: any) => {
+    const trackEngagement = useCallback((postId: string, type: 'like' | 'comment' | 'share', data?: any) => {
         if (!trackEngagementEnabled) return;
 
         const sessionId = getSessionId();

@@ -196,6 +196,13 @@ class BlogAnalyticsService {
 
     async trackView(postId: string, sessionId?: string) {
         try {
+            // Get current post views first
+            const { data: post } = await supabase
+                .from('blog_posts')
+                .select('views')
+                .eq('id', postId)
+                .single();
+
             await supabase
                 .from('blog_analytics_views')
                 .insert([{
@@ -209,7 +216,7 @@ class BlogAnalyticsService {
             // Increment post views
             await supabase
                 .from('blog_posts')
-                .update({ views: supabase.raw('views + 1') })
+                .update({ views: (post?.views || 0) + 1 })
                 .eq('id', postId);
         } catch (error) {
             console.error('Error tracking view:', error);

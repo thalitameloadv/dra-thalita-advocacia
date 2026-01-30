@@ -9,8 +9,8 @@ import Index from "./pages/Index";
 import Calculadoras from "./pages/Calculadoras";
 import CalculadoraAposentadoria from "./pages/CalculadoraAposentadoria";
 import CalculadoraRescisao from "./pages/CalculadoraRescisao";
-import Blog from "./pages/Blog";
-import BlogArticle from "./pages/BlogArticle";
+import BlogEnhanced from "./pages/BlogEnhanced";
+import BlogArticleEnhanced from "./pages/BlogArticleEnhanced";
 import BlogAdmin from "./pages/BlogAdmin";
 import BlogEditor from "./pages/BlogEditor";
 import BlogSEO from "./pages/BlogSEO";
@@ -18,49 +18,17 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminResetPassword from "./pages/AdminResetPassword";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
-import NewsletterAdmin from "./pages/NewsletterAdmin";
+import NewsletterAdminEnhanced from "./pages/NewsletterAdminEnhanced";
 import CreateNewsletter from "./pages/CreateNewsletter";
-import CreateArticle from "./pages/CreateArticle";
+import CreateArticleDirect from "./pages/CreateArticleDirect";
+
+import ErrorBoundaryEnhanced from "./components/ErrorBoundaryEnhanced";
 
 const queryClient = new QueryClient();
 
-class ErrorBoundary extends React.Component<
-  { children: React.ReactNode },
-  { hasError: boolean; error?: unknown }
-> {
-  constructor(props: { children: React.ReactNode }) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error: unknown) {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error: unknown) {
-    console.error("App crash:", error);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div style={{ padding: 16, fontFamily: "system-ui, sans-serif" }}>
-          <h1 style={{ fontSize: 18, fontWeight: 700 }}>Erro ao renderizar a aplicação</h1>
-          <p style={{ marginTop: 8 }}>Abra o Console (F12) para ver o stack trace completo.</p>
-          <pre style={{ marginTop: 12, whiteSpace: "pre-wrap" }}>
-            {String(this.state.error ?? "Erro desconhecido")}
-          </pre>
-        </div>
-      );
-    }
-
-    return this.props.children;
-  }
-}
-
 const App = () => {
   return (
-    <ErrorBoundary>
+    <ErrorBoundaryEnhanced>
       <HelmetProvider>
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
@@ -74,8 +42,8 @@ const App = () => {
                 <Route path="/calculadora-rescisao-trabalhista" element={<CalculadoraRescisao />} />
 
                 {/* Blog Routes */}
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/:slug" element={<BlogArticle />} />
+                <Route path="/blog" element={<BlogEnhanced />} />
+                <Route path="/blog/:slug" element={<BlogArticleEnhanced />} />
 
                 {/* Admin Login */}
                 <Route path="/admin/login" element={<AdminLogin />} />
@@ -99,19 +67,19 @@ const App = () => {
                 } />
                 <Route path="/admin/blog/novo" element={
                   <ProtectedRoute>
-                    <CreateArticle />
+                    <CreateArticleDirect />
                   </ProtectedRoute>
                 } />
                 <Route path="/admin/blog/editar/:id" element={
                   <ProtectedRoute>
-                    <CreateArticle />
+                    <CreateArticleDirect />
                   </ProtectedRoute>
                 } />
 
                 {/* Newsletter Admin Routes */}
                 <Route path="/admin/newsletter" element={
                   <ProtectedRoute>
-                    <NewsletterAdmin />
+                    <NewsletterAdminEnhanced />
                   </ProtectedRoute>
                 } />
                 <Route path="/admin/newsletter/criar" element={
@@ -132,7 +100,7 @@ const App = () => {
           </TooltipProvider>
         </QueryClientProvider>
       </HelmetProvider>
-    </ErrorBoundary>
+    </ErrorBoundaryEnhanced>
   );
 };
 

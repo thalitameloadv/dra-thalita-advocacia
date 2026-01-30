@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -22,7 +22,20 @@ import {
     BarChart3,
     FileText,
     Settings,
-    LogOut
+    LogOut,
+    Copy,
+    Pause,
+    Play,
+    RefreshCw,
+    Upload,
+    MailOpen,
+    MousePointer2,
+    Target,
+    Zap,
+    Bell,
+    Archive,
+    ChevronDown,
+    ChevronRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -62,6 +75,12 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Checkbox } from '@/components/ui/checkbox';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Progress } from '@/components/ui/progress';
+import { Separator } from '@/components/ui/separator';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { newsletterService } from '@/services/newsletterService';
 import { authService } from '@/lib/supabase';
 import { NewsletterSubscriber } from '@/types/blog';
@@ -71,17 +90,28 @@ import NewsletterAnalytics from '@/components/NewsletterAnalytics';
 const NewsletterAdmin = () => {
     const navigate = useNavigate();
     const [subscribers, setSubscribers] = useState<NewsletterSubscriber[]>([]);
+    const [campaigns, setCampaigns] = useState<any[]>([]);
     const [stats, setStats] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'pending' | 'unsubscribed'>('all');
+    const [campaignStatusFilter, setCampaignStatusFilter] = useState<'all' | 'draft' | 'scheduled' | 'sent' | 'sending'>('all');
     const [showCreateDialog, setShowCreateDialog] = useState(false);
+    const [showBulkDialog, setShowBulkDialog] = useState(false);
+    const [showScheduleDialog, setShowScheduleDialog] = useState(false);
+    const [selectedCampaign, setSelectedCampaign] = useState<any>(null);
+    const [selectedSubscribers, setSelectedSubscribers] = useState<string[]>([]);
     const [newNewsletter, setNewNewsletter] = useState({
         subject: '',
         content: '',
-        previewText: ''
+        previewText: '',
+        template: 'default',
+        scheduledFor: '',
+        segments: []
     });
     const [sending, setSending] = useState(false);
+    const [exporting, setExporting] = useState(false);
+    const [activeTab, setActiveTab] = useState('overview');
 
     useEffect(() => {
         loadData();
@@ -90,18 +120,163 @@ const NewsletterAdmin = () => {
     const loadData = async () => {
         try {
             setLoading(true);
-            const [subscribersData, statsData] = await Promise.all([
+            const [subscribersData, statsData, campaignsData] = await Promise.all([
                 newsletterService.getSubscribers(),
-                newsletterService.getSubscriberStats()
+                newsletterService.getSubscriberStats(),
+                newsletterService.getCampaigns()
             ]);
 
             setSubscribers(subscribersData);
             setStats(statsData);
+            setCampaigns(campaignsData);
         } catch (error) {
             console.error('Error loading data:', error);
             toast.error('Erro ao carregar dados');
         } finally {
             setLoading(false);
+        }
+    };
+
+    // Filter functions
+    const filteredSubscribers = useMemo(() => {
+        return subscribers.filter(subscriber => {
+            const matchesSearch = subscriber.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                 subscriber.name?.toLowerCase().includes(searchTerm.toLowerCase());
+            const matchesStatus = statusFilter === 'all' || subscriber.status === statusFilter;
+            return matchesSearch && matchesStatus;
+        });
+    }, [subscribers, searchTerm, statusFilter]);
+
+    const filteredCampaigns = useMemo(() => {
+        return campaigns.filter(campaign => {
+            const matchesStatus = campaignStatusFilter === 'all' || campaign.status === campaignStatusFilter;
+            return matchesStatus;
+        });
+    }, [campaigns, campaignStatusFilter]);
+
+    // Campaign actions
+    const handleCreateCampaign = async () => {
+        try {
+            setSending(true);
+            await newsletterService.createCampaign(newNewsletter);
+            toast.success('Campanha criada com sucesso!');
+            setShowCreateDialog(false);
+            setNewNewsletter({ subject: '', content: '', previewText: '', template: 'default', scheduledFor: '', segments: [] });
+            loadData();
+        } catch (error) {
+            console.error('Error creating campaign:', error);
+            toast.error('Erro ao criar campanha');
+        } finally {
+            setSending(false);
+        }
+    };
+
+    const handleSendCampaign = async (campaignId: string) => {
+        if (!confirm('Tem certeza que deseja enviar esta campanha?')) return;
+        
+        try {
+            setSending(true);
+            await newsletterService.sendCampaign(campaignId);
+            toast.success('Campanha enviada com sucesso!');
+            loadData();
+        } catch (error) {
+            console.error('Error sending campaign:', error);
+            toast.error('Erro ao enviar campanha');
+        } finally {
+            setSending(false);
+        }
+    };
+
+    const handleScheduleCampaign = async () => {
+        try {
+            setSending(true);
+            await newsletterService.scheduleCampaign(selectedCampaign.id, newNewsletter.scheduledFor);
+            toast.success('Campanha agendada com sucesso!');
+            setShowScheduleDialog(false);
+            loadData();
+        } catch (error) {
+            console.error('Error scheduling campaign:', error);
+            toast.error('Erro ao agendar campanha');
+        } finally {
+            setSending(false);
+        }
+    };
+
+    const handleDuplicateCampaign = async (campaign: any) => {
+        try {
+            await newsletterService.duplicateCampaign(campaign.id);
+            toast.success('Campanha duplicada com sucesso!');
+            loadData();
+        } catch (error) {
+            console.error('Error duplicating campaign:', error);
+            toast.error('Erro ao duplicar campanha');
+        }
+    };
+
+    const handleDeleteCampaign = async (campaignId: string) => {
+        if (!confirm('Tem certeza que deseja excluir esta campanha?')) return;
+        
+        try {
+            await newsletterService.deleteCampaign(campaignId);
+            toast.success('Campanha excluída com sucesso!');
+            loadData();
+        } catch (error) {
+            console.error('Error deleting campaign:', error);
+            toast.error('Erro ao excluir campanha');
+        }
+    };
+
+    // Subscriber actions
+    const handleExportSubscribers = async () => {
+        try {
+            setExporting(true);
+            const data = await newsletterService.exportSubscribers(filteredSubscribers);
+            const blob = new Blob([data], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `subscribers_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            toast.success('Inscritos exportados com sucesso!');
+        } catch (error) {
+            console.error('Error exporting subscribers:', error);
+            toast.error('Erro ao exportar inscritos');
+        } finally {
+            setExporting(false);
+        }
+    };
+
+    const handleBulkAction = async (action: 'unsubscribe' | 'delete' | 'activate') => {
+        if (selectedSubscribers.length === 0) {
+            toast.error('Selecione pelo menos um inscrito');
+            return;
+        }
+
+        const confirmMessage = {
+            unsubscribe: 'Tem certeza que deseja cancelar a inscrição dos selecionados?',
+            delete: 'Tem certeza que deseja excluir os selecionados?',
+            activate: 'Tem certeza que deseja ativar os selecionados?'
+        };
+
+        if (!confirm(confirmMessage[action])) return;
+
+        try {
+            await newsletterService.bulkAction(selectedSubscribers, action);
+            toast.success(`Ação em massa realizada com sucesso!`);
+            setSelectedSubscribers([]);
+            loadData();
+        } catch (error) {
+            console.error('Error performing bulk action:', error);
+            toast.error('Erro ao realizar ação em massa');
+        }
+    };
+
+    const handleSelectAll = (checked: boolean) => {
+        if (checked) {
+            setSelectedSubscribers(filteredSubscribers.map(s => s.id));
+        } else {
+            setSelectedSubscribers([]);
         }
     };
 
