@@ -57,6 +57,7 @@ import { blogService } from '@/services/blogService';
 import { BlogPost, BlogCategory } from '@/types/blog';
 import { toast } from 'sonner';
 import { sanitizeHtml } from '@/lib/sanitizeHtml';
+import { supabase } from '@/lib/supabase';
 
 const articleSchema = z.object({
     title: z.string().min(1, 'O título é obrigatório'),
@@ -117,7 +118,7 @@ const ArticleEditor = ({ articleId, onSave, onPublish }: ArticleEditorProps) => 
 
     const loadArticle = useCallback(async () => {
         try {
-            const article = await blogService.getPost(articleId!);
+            const article = await blogService.getPostById(articleId!);
             if (article) {
                 reset({
                     title: article.title,
@@ -278,15 +279,50 @@ const ArticleEditor = ({ articleId, onSave, onPublish }: ArticleEditorProps) => 
         setValue('seoKeywords', seoKeywords.filter(keyword => keyword !== keywordToRemove));
     };
 
-    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            // In a real implementation, you would upload to a service
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setFeaturedImage(reader.result as string);
-            };
-            reader.readAsDataURL(file);
+            try {
+                // Upload to Supabase Storage
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${Date.now()}.${fileExt}`;
+                const filePath = `blog-images/${fileName}`;
+
+                const { data: uploadData, error: uploadError } = await supabase.storage
+                    .from('blog-images')
+                    .upload(filePath, file, {
+                        cacheControl: '3600',
+                        upsert: false
+                    });
+
+                if (uploadError) {
+                    console.error('Error uploading image:', uploadError);
+                    // Fallback to FileReader if upload fails
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        setFeaturedImage(reader.result as string);
+                    };
+                    reader.readAsDataURL(file);
+                    return;
+                }
+
+                // Get public URL
+                const { data: urlData } = supabase.storage
+                    .from('blog-images')
+                    .getPublicUrl(filePath);
+
+                setFeaturedImage(urlData.publicUrl);
+                toast.success('Imagem enviada com sucesso!');
+            } catch (error) {
+                console.error('Error in image upload:', error);
+                // Fallback to FileReader
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setFeaturedImage(reader.result as string);
+                };
+                reader.readAsDataURL(file);
+                toast.error('Erro ao fazer upload, usando imagem local');
+            }
         }
     };
 
